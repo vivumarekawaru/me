@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main() {
+    int a;
+    int val=1;
+    int psudo_val=1;
+    int o;
+    printf("no.:");
+    scanf("%d",&a);
+    
+    for (int i=1;i<=a;i++){
+        
+        for (int j=0;j<(a-i);j++)
+            printf(" ");
+            
+        for (int j=1;psudo_val>0;psudo_val/=10){
+            o=psudo_val%10;
+            printf("%d ",o);
+        }
+        printf("\n");
+       // printf("%d\n",val);
+        val=val*11;
+        psudo_val=val ;
+    }
+}
