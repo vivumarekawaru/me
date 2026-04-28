@@ -1,0 +1,40 @@
+# include <stdio.h>
+int counter=0,key_pre=0,ind=0;
+
+int count(int arr[],int index,int key_pre,int N){
+    int n=0,s_no=index;
+    for (;s_no<N;s_no++){
+        if ((arr[s_no]>arr[index])&&(arr[s_no]>key_pre)) n++;
+    return (n);
+    }
+}
+
+int largest(int arr[],int N){
+    counter++;
+    int index=ind,n=0;
+    for (int i=ind+1;i<N;i++){
+        int a=count(arr,i,key_pre,N);
+        if (a>n) {
+            n=a;
+            index=i;
+        }
+    }
+    if (n==0) return (0);
+    ind=index;
+    key_pre=arr[ind];
+    printf("%d ",key_pre);
+    //return (largest(arr,N));
+    return (key_pre);
+}
+
+int main(){
+  int math[]={10,22,9,33,21,50};
+  printf("[");
+  printf("%d",largest(math,6));
+  printf("]");
+return 0;
+}
+
+
+//Find the length of the longest increasing subsequence in an array using only loops (no dynamic progranmming) Eg.
+Input (10, 22,9, 33, 21, 50]; Output [10, 22, 33, 50] (length 4) is LIS. [4] (finish this)
