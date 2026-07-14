@@ -1,0 +1,350 @@
+nums=[1,2,3,4,6,7,5,9,10,11]
+max_=0
+cur=set()
+done=set()
+last=min(nums)
+nums=set(nums)
+for x in nums:
+    if last+1 in done:
+        cur.add(last+1)
+        last+=1
+    else:
+        nums=nums-cur
+        if len(nums)==0:
+            break
+        last=min(nums)
+        if max_<len(cur):
+            max_=len(cur)
+        cur.clear()
+return (max(max_,len(cur)))
+
+
+
+------------------------------
+
+
+nums=[1,2,3,6,7,5,9,10,11,4]
+max_=0
+cur=set()
+last=min(nums)
+nums=set(nums)
+for _ in nums:
+    cur.add(min(nums))
+    if last+1 in nums:
+        cur.add(last+1)
+        last+=1
+    else:
+        nums=nums-cur
+        if len(nums)==0:
+            break
+        last=min(nums)
+        if max_<len(cur):
+            max_=len(cur)
+        cur.clear()
+return (max(max_,len(cur)))
+
+
+
+
+----------------------------
+
+
+
+nums=[1,2,3,6,7,5,9,10,11,4]
+max_=0
+cur=set()
+last=min(nums)
+nums=set(nums)
+
+for _ in nums:
+    if len(cur)==0:
+        cur.add(min(nums))
+        nums.discard(last)
+    if last+1 in nums:
+        cur.add(last+1)
+        last+=1
+        nums.discard(last+1)
+    else:
+        last=min(nums)
+        if max_<len(cur):
+            max_=len(cur)
+        cur.clear()
+
+print (max(max_,len(cur)))
+
+
+----------------------------------------
+# basically my idea is half baked i am trying to make two list of no. one goes to the end and other to the begining, and i intend to join them somehow at the end (dont know how but lets see....)
+
+nums=[2,3,4,6,7,5,9,10,11,1]
+compiled_up={}
+compiled_down={}
+done=set()
+nums=set(nums)
+count=1
+for x in nums:
+
+    if x+1 in done or x-1 in done:
+        if x+1 in compiled_down:
+            compiled_down[x]=[x,*compiled_down[x+1]]
+        else:
+            compiled_up[x]=[*compiled_up[x-1],x]
+
+    else:
+        compiled_down[x]=[x]
+        compiled_up[x]=[x]
+        
+    done.add(x)
+
+
+print(compiled_down)
+print(compiled_up)
+print(done)
+
+
+
+# so for the merging i was thinking of giving a serial no. to a key the serial no. keeps forwording but the key changes since key is immutable i want to generate a new element with the same serial new key and updated value something like (1,5): [3,4,5] and (1,1): [1,2,3] like basically the set's for started at 3 and gave it the serial 1 and key kept virtually updating. now this creates the isue as now its not exactly using the hash, (i just got an analogy hashing is like colouring boxes you open red you open red instead of checking individually is this red is this red but when we put it inside a list now the labels are no. instead of colours so we have to go like is this 3 is this 3 then kinda like open 1 is there any red no.. open 2 is there any red... kinda useless but... mine!!! f* yeah!!)
+#now so basically the only decent idea seems to make my own class, make my own dictiony that takes two keys...
+
+
+
+# waiiiiiiiiiiiiit a minute i pressed run in terminal multiple times and saw all dictionaries looked the same, like i know sets can change order but dictionaries remeber when the key was added so could it be that some magicall how it uses its values in ascending order because i know sorting can fic everything i was avoiding it because it costs nlogn so is this good or bad as in if this works on surface it will be o(n) but if under the hood its sorting it will give me o(nlogn).
+
+-------------------------
+
+nums=[2,3,4,6,7,5,9,10,11,1]
+compiled={}
+done=set()
+nums=set(nums)
+count=1
+for x in nums:
+    if  x-1 in done:
+        compiled[x]=[*compiled[x-1],x]
+    else:
+        compiled[x]=[x]
+
+    done.add(x)
+print (max(len(x) for x in compiled.values()))
+
+
+--------------------------
+
+
+class my_dic:
+    def _init__(self,key_1,key_2,value):
+        self.key_1=key_1
+        self.key_2=key_2
+        self.value=value
+    def give_value(self) .....
+
+    # how exactly can i make my own dictionary class?
+
+
+
+    if len(nums)==0:
+            return 0
+        compiled_up={}
+        compiled_down={}
+        done=set()
+        nums=set(nums)
+        for x in nums:
+
+            if x+1 in done or x-1 in done:
+                if x+1 in compiled_down:
+                    compiled_down[x]=compiled_down[x+1]
+                if x-1 in compiled_up:
+                    compiled_up[x]=compiled_up[x-1]
+
+            else:
+                compiled_down[x]=x
+                compiled_up[x]=x
+            done.add(x)
+        up={}
+        for (k,v) in compiled_up.items():
+            if v in up:
+                if k> up[v]:
+                    up[v]=k
+            else:
+                up[v]=k
+
+        down={}
+        for (k,v) in compiled_down.items():
+            if v in down:
+                if k<down[v]:
+                    down[v]=k
+            else:
+                down[v]=k
+        max_=0
+        for k in up.keys():
+            val=up[k]-down[k]
+            if val>max_:
+                max_=val
+            
+
+        return(max(up[k]-down[k] for k in up.keys())+1)
+
+
+
+----------
+
+nums=[4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3]
+compiled_up={}
+compiled_down={}
+done=set()
+nums=set(nums)
+for x in nums:
+
+    if x+1 in done or x-1 in done:
+        if x+1 in compiled_down:
+            compiled_down[x]=compiled_down[x+1]
+            compiled_down.pop(x+1)
+
+        if x-1 in compiled_up:
+            compiled_up[x]=compiled_up[x-1]
+            compiled_up.pop(x-1)
+        
+
+    else:
+        compiled_down[x]=x
+        compiled_up[x]=x
+    done.add(x)
+
+for (k,v) in compiled_up:
+    if k in compiled_down:
+        compiled_up[compiled_down[k]]=v
+        compiled_up.pop()
+
+
+up={}
+for (k,v) in compiled_up.items():
+    up[v]=k
+
+down={}
+for (k,v) in compiled_down.items():
+    down[v]=k
+
+
+
+print(compiled_up)
+print(compiled_down)
+print(up)
+print(down)
+#print(max(up[k]-down[k] for k in up.keys())+1)
+
+#print (max(len(x) for x in compiled.values()))
+
+
+
+nums=[4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3]
+
+if len(nums)==0:
+    print(0)
+compiled_up={}
+compiled_down={}
+done=set()
+nums=set(nums)
+for x in nums:
+    if x+1 in done and x-1 in done:
+        val_d=compiled_up[x-1]
+        for (k,v) in compiled_down.items():
+            if v==val_d:
+                val_d=k
+                break
+        val_u=compiled_down[x+1]
+        for (k,v) in compiled_up.items():
+            if v==val_u:
+                val_u=k
+                break
+        compiled_down[val_d]=x
+        compiled_up[val_u]=x
+        
+        continue
+    if x+1 in done or x-1 in done:
+        if x+1 in compiled_down:
+            compiled_down[x]=compiled_down[x+1]
+        if x-1 in compiled_up:
+            compiled_up[x]=compiled_up[x-1]
+    else:
+        compiled_down[x]=x
+        compiled_up[x]=x
+    done.add(x)
+up={}
+for (k,v) in compiled_up.items():
+    if v in up:
+        if k> up[v]:
+            up[v]=k
+    else:
+        up[v]=k
+down={}
+for (k,v) in compiled_down.items():
+    if v in down:
+        if k<down[v]:
+            down[v]=k
+    else:
+        down[v]=k
+print(compiled_up)
+print(compiled_down)
+print(up)
+print(down)
+#print(max(up[k]-down[k] for k in up.keys())+1)
+
+
+---------------------------------------------------
+
+
+
+nums=[4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3]
+
+if len(nums)==0:
+    print(0)
+compiled_up={}
+compiled_down={}
+done=set()
+nums=set(nums)
+for x in nums:
+    if x+1 in done and x-1 in done:
+        val_d=compiled_up[x-1]
+        for (k,v) in compiled_down.items():
+            if v==val_d:
+                val_d=k
+                break
+        val_u=compiled_down[x+1]
+        for (k,v) in compiled_up.items():
+            if v==val_u:
+                val_u=k
+                break
+        compiled_down[val_d]=x
+        compiled_up[val_u]=x
+        compiled_up.pop(x-1)
+        compiled_down.pop(x+1)
+        compiled_up.pop(val_u)
+        compiled_down.pop(val_d)
+        continue
+    if x+1 in done or x-1 in done:
+        if x+1 in compiled_down:
+            compiled_down[x]=compiled_down[x+1]
+        if x-1 in compiled_up:
+            compiled_up[x]=compiled_up[x-1]
+    else:
+        compiled_down[x]=x
+        compiled_up[x]=x
+    done.add(x)
+up={}
+for (k,v) in compiled_up.items():
+    if v in up:
+        if k> up[v]:
+            up[v]=k
+    else:
+        up[v]=k
+down={}
+for (k,v) in compiled_down.items():
+    if v in down:
+        if k<down[v]:
+            down[v]=k
+    else:
+        down[v]=k
+print(compiled_up)
+print(compiled_down)
+print(up)
+print(down)
+#print(max(up[k]-down[k] for k in up.keys())+1)
